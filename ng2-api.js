@@ -1,82 +1,65 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require('angular2/core');
-var Observable_1 = require('rxjs/Observable');
-var Api = (function () {
-    function Api() {
+"use strict";
+var http_1 = require('angular2/http');
+var ApiHelpers = (function () {
+    function ApiHelpers() {
     }
-    Api.prototype.get = function (url, params) {
-        return new Observable_1.Observable();
+    ApiHelpers.toSearch = function (params) {
+        var urlSearchParams = new http_1.URLSearchParams();
+        for (var key in params) {
+            var value = params[key];
+            if (!!value) {
+                urlSearchParams.set(key, params[key]);
+            }
+        }
+        return urlSearchParams;
     };
-    Api.prototype.put = function (url, params, data) {
-        return new Observable_1.Observable();
-    };
-    Api.prototype.post = function (url, params, data) {
-        return new Observable_1.Observable();
-    };
-    Api.prototype.delete = function (url, params, data) {
-        return new Observable_1.Observable();
-    };
-    Api = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], Api);
-    return Api;
-})();
-exports.Api = Api;
-var ApiResource = (function () {
-    function ApiResource(api, path) {
-        this.api = api;
+    return ApiHelpers;
+}());
+var ApiService = (function () {
+    function ApiService(http, apiUrl, path) {
+        this.http = http;
+        this.apiUrl = apiUrl;
         this.path = path;
     }
-    ApiResource.prototype.findAll = function () {
-        return this.processResponse(this.api.get("" + this.path, {}));
+    ApiService.prototype.url = function (url) {
+        return this.apiUrl + "/" + url;
     };
-    ApiResource.prototype.find = function (id) {
-        return this.processResponse(this.api.get(this.path + "/:id", { id: id }));
+    ApiService.prototype.requestOptions = function () {
+        var headers = new http_1.Headers();
+        headers.set('Content-Type', 'application/json');
+        return new http_1.RequestOptions({ headers: headers });
     };
-    ApiResource.prototype.update = function (id, model) {
-        return this.processResponse(this.api.put(this.path + "/:id", { id: id }, model));
-    };
-    ApiResource.prototype.create = function (model) {
-        return this.processResponse(this.api.post("" + this.path, {}, model));
-    };
-    ApiResource.prototype.delete = function (id) {
-        return this.processResponse(this.api.delete(this.path + "/:id", { id: id }, {}));
-    };
-    ApiResource.prototype.processResponse = function (observable) {
-        var _this = this;
-        return observable
-            .map(function (res) { return _this.processSuccessResponse(res); })
-            .catch(this.processErrorResponse);
-    };
-    ApiResource.prototype.serialize = function (model) {
+    ApiService.prototype.serialize = function (model) {
         return JSON.stringify(model);
     };
-    ApiResource.prototype.deserialize = function (res) {
-        return res;
-    };
-    ApiResource.prototype.processSuccessResponse = function (res) {
-        var _this = this;
+    ApiService.prototype.deserialize = function (res) {
         var data = res.json();
         if (data && Array === data.constructor) {
-            return data.map(function (entry) { return _this.deserialize(entry); });
+            return data.map(function (item) { return item; });
         }
         else {
-            return this.deserialize(data);
+            return data;
         }
     };
-    ApiResource.prototype.processErrorResponse = function (error) {
-        return Observable_1.Observable.throw(new Error(error.json().join() || 'Server error'));
+    ApiService.prototype.find = function (id) {
+        return this.http.get(this.url(this.path + "/" + id), this.requestOptions()).map(this.deserialize);
     };
-    return ApiResource;
-})();
-exports.ApiResource = ApiResource;
+    ApiService.prototype.findAll = function (search) {
+        var requestOptions = new http_1.RequestOptions({
+            search: ApiHelpers.toSearch(search)
+        });
+        return this.http.get(this.url(this.path), this.requestOptions().merge(requestOptions)).map(this.deserialize);
+    };
+    ApiService.prototype.create = function (model) {
+        return this.http.post(this.url(this.path), this.serialize(model), this.requestOptions()).map(this.deserialize);
+    };
+    ApiService.prototype.update = function (model) {
+        return this.http.put(this.url(this.path + "/" + model['id']), this.serialize(model), this.requestOptions()).map(this.deserialize);
+    };
+    ApiService.prototype.delete = function (model) {
+        return this.http.delete(this.url(this.path + "/" + model['id']), this.requestOptions()).map(function (res) { return res.ok; });
+    };
+    return ApiService;
+}());
+exports.ApiService = ApiService;
 //# sourceMappingURL=ng2-api.js.map

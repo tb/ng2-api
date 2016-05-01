@@ -1,9 +1,9 @@
 {
   "name": "ng2-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Angular2 API services",
-  "main": "nouislider.js",
-  "typings": "nouislider.d.ts",
+  "main": "ng2-api.js",
+  "typings": "ng2-api.d.ts",
   "scripts": {
     "prepublish": "typings install && tsc",
     "start": "lite-server start"
@@ -30,6 +30,6 @@
     "zone.js": "^0.6.12"
   },
   "peerDependencies": {
-    "angular2": "^2.0.0-beta.10"
+    "angular2": "^2.0.0-beta.15"
   }
 }

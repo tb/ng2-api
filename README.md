@@ -8,17 +8,44 @@ Angular2 API services - work in progress
 
 ## Import
 
-    import {Api, ApiResource} from 'ng2-api';
+    import {ApiService} from 'ng2-api';
 
 ## Usage
 
+    import {Inject, Injectable} from 'angular2/core';
+    import {Http, Response} from 'angular2/http';
+    import {ApiService} from 'ng2-api';
+    
+    export class Post {
+      id: number;
+      title: string;
+      body: string;
+    
+      constructor(object: Object) {
+        Object.assign(this, object);
+      }
+    }
+
     @Injectable()
-    export class UsersResource extends ApiResource<User> {
-      constructor(public api: Api) {
-        super(api, 'users');
+    export class PostsService extends ApiService<Post> {
+      constructor(public http: Http) {
+        super(http, 'http://jsonplaceholder.typicode.com', 'posts');
+      }
+    
+      serialize(model: Post): string {
+        return JSON.stringify({post: model});
       }
     }
     
+
+### ApiService methods
+
+    find(id: number | string): Observable<Post>
+    findAll(search?: any): Observable<Post[]>
+    create(model: Post): Observable<Post>
+    update(model: Post): Observable<Post>
+    delete(model: Post): Observable<boolean>
+
 ## License
 
 MIT
