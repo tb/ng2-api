@@ -16,16 +16,12 @@ Angular2 API services - work in progress
     import {Http, Response} from 'angular2/http';
     import {ApiService} from 'ng2-api';
     
-    export class Post {
+    export interface Post {
       id: number;
       title: string;
       body: string;
-    
-      constructor(object: Object) {
-        Object.assign(this, object);
-      }
     }
-
+    
     @Injectable()
     export class PostsService extends ApiService<Post> {
       constructor(public http: Http) {
