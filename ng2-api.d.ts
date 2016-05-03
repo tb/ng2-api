@@ -5,7 +5,7 @@ export declare class ApiService<T> {
     protected apiUrl: string;
     protected path: string;
     constructor(http: Http, apiUrl: string, path: string);
-    url(url: string): string;
+    url(path: string, params?: any): string;
     requestOptions(): RequestOptions;
     serialize(model: T): string;
     deserialize(res: Response): T | T[];

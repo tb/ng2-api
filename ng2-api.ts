@@ -2,6 +2,19 @@ import {Http, Headers, Response, RequestOptions, URLSearchParams} from 'angular2
 import {Observable} from 'rxjs/Observable';
 
 class ApiHelpers {
+  static interpolate(string: string, params: any, deleteParam: boolean = false): string {
+    return string.replace(/:([a-zA-Z]+[\w-]*)/g, (match, key) => {
+      if (params.hasOwnProperty(key)) {
+        if (deleteParam) {
+          delete params[key];
+        }
+        return params[key];
+      } else {
+        return match;
+      }
+    });
+  }
+
   static toSearch(params: any): URLSearchParams {
     var urlSearchParams = new URLSearchParams();
     for (var key in params) {
@@ -20,8 +33,9 @@ export class ApiService<T> {
               protected path: string) {
   }
 
-  url(url: string): string {
-    return `${this.apiUrl}/${url}`;
+  url(path: string, params: any = {}): string {
+    let interpolatedPath = ApiHelpers.interpolate(path, params);
+    return `${this.apiUrl}/${interpolatedPath}`;
   }
 
   requestOptions(): RequestOptions {
@@ -46,18 +60,19 @@ export class ApiService<T> {
 
   find(id: number|string): Observable<T> {
     return this.http.get(
-      this.url(`${this.path}/${id}`),
+      this.url(`${this.path}/:id`, {id}),
       this.requestOptions()
     ).map(this.deserialize);
   }
 
   findAll(search?: any): Observable<T[]> {
+    let interpolatedPath = ApiHelpers.interpolate(this.path, search, true);
     let requestOptions = new RequestOptions({
       search: ApiHelpers.toSearch(search)
     });
 
     return this.http.get(
-      this.url(this.path),
+      this.url(interpolatedPath),
       this.requestOptions().merge(requestOptions)
     ).map(this.deserialize);
   }
@@ -72,7 +87,7 @@ export class ApiService<T> {
 
   update(model: T): Observable<T> {
     return this.http.put(
-      this.url(`${this.path}/${model['id']}`),
+      this.url(`${this.path}/:id`, model),
       this.serialize(model),
       this.requestOptions()
     ).map(this.deserialize);
@@ -80,7 +95,7 @@ export class ApiService<T> {
 
   delete(model: T): Observable<boolean> {
     return this.http.delete(
-      this.url(`${this.path}/${model['id']}`),
+      this.url(`${this.path}/:id`, model),
       this.requestOptions()
     ).map((res: Response) => res.ok);
   }

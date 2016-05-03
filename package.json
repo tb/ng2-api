@@ -1,6 +1,6 @@
 {
   "name": "ng2-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Angular2 API services",
   "main": "ng2-api.js",
   "typings": "ng2-api.d.ts",

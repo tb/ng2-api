@@ -3,6 +3,20 @@ var http_1 = require('angular2/http');
 var ApiHelpers = (function () {
     function ApiHelpers() {
     }
+    ApiHelpers.interpolate = function (string, params, deleteParam) {
+        if (deleteParam === void 0) { deleteParam = false; }
+        return string.replace(/:([a-zA-Z]+[\w-]*)/g, function (match, key) {
+            if (params.hasOwnProperty(key)) {
+                if (deleteParam) {
+                    delete params[key];
+                }
+                return params[key];
+            }
+            else {
+                return match;
+            }
+        });
+    };
     ApiHelpers.toSearch = function (params) {
         var urlSearchParams = new http_1.URLSearchParams();
         for (var key in params) {
@@ -21,8 +35,10 @@ var ApiService = (function () {
         this.apiUrl = apiUrl;
         this.path = path;
     }
-    ApiService.prototype.url = function (url) {
-        return this.apiUrl + "/" + url;
+    ApiService.prototype.url = function (path, params) {
+        if (params === void 0) { params = {}; }
+        var interpolatedPath = ApiHelpers.interpolate(path, params);
+        return this.apiUrl + "/" + interpolatedPath;
     };
     ApiService.prototype.requestOptions = function () {
         var headers = new http_1.Headers();
@@ -42,22 +58,23 @@ var ApiService = (function () {
         }
     };
     ApiService.prototype.find = function (id) {
-        return this.http.get(this.url(this.path + "/" + id), this.requestOptions()).map(this.deserialize);
+        return this.http.get(this.url(this.path + "/:id", { id: id }), this.requestOptions()).map(this.deserialize);
     };
     ApiService.prototype.findAll = function (search) {
+        var interpolatedPath = ApiHelpers.interpolate(this.path, search, true);
         var requestOptions = new http_1.RequestOptions({
             search: ApiHelpers.toSearch(search)
         });
-        return this.http.get(this.url(this.path), this.requestOptions().merge(requestOptions)).map(this.deserialize);
+        return this.http.get(this.url(interpolatedPath), this.requestOptions().merge(requestOptions)).map(this.deserialize);
     };
     ApiService.prototype.create = function (model) {
         return this.http.post(this.url(this.path), this.serialize(model), this.requestOptions()).map(this.deserialize);
     };
     ApiService.prototype.update = function (model) {
-        return this.http.put(this.url(this.path + "/" + model['id']), this.serialize(model), this.requestOptions()).map(this.deserialize);
+        return this.http.put(this.url(this.path + "/:id", model), this.serialize(model), this.requestOptions()).map(this.deserialize);
     };
     ApiService.prototype.delete = function (model) {
-        return this.http.delete(this.url(this.path + "/" + model['id']), this.requestOptions()).map(function (res) { return res.ok; });
+        return this.http.delete(this.url(this.path + "/:id", model), this.requestOptions()).map(function (res) { return res.ok; });
     };
     return ApiService;
 }());
