@@ -1,4 +1,10 @@
 .idea/
+dist/
 node_modules/
 typings/
 npm-debug.log
+
+# Generated #
+src/*.js
+src/*.d.ts
+typings/

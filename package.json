@@ -1,11 +1,14 @@
 {
   "name": "ng2-api",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Angular2 API services",
-  "main": "ng2-api.js",
-  "typings": "ng2-api.d.ts",
+  "main": "dist/ng2-api.js",
+  "typings": "dist/ng2-api.d.ts",
   "scripts": {
-    "prepublish": "typings install && tsc",
+    "build": "typings install && tsc",
+    "test": "karma start",
+    "test:w": "karma start --single-run",
+    "prepublish": "typings install && test && build",
     "start": "lite-server start"
   },
   "keywords": [
@@ -20,16 +23,33 @@
   "author": "Tomasz Bak <t.bak@selleo.com>",
   "license": "MIT",
   "devDependencies": {
-    "browser-sync": "^2.12.3",
+    "@angular/common": "^2.0.0-rc.0",
+    "@angular/compiler": "^2.0.0-rc.0",
+    "@angular/core": "^2.0.0-rc.0",
+    "@angular/http": "^2.0.0-rc.0",
+    "@angular/platform-browser": "^2.0.0-rc.0",
+    "@angular/platform-browser-dynamic": "^2.0.0-rc.0",
+    "es6-promise": "^3.0.2",
     "es6-shim": "^0.35.0",
-    "lite-server": "^2.2.0",
-    "reflect-metadata": "^0.1.2",
-    "rxjs": "^5.0.0-beta.2",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-jasmine": "^0.3.8",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-typescript-preprocessor": "0.0.21",
+    "phantomjs-prebuilt": "^2.1.7",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.6",
+    "systemjs": "^0.19.26",
     "typescript": "^1.8.10",
     "typings": "^0.8.1",
     "zone.js": "^0.6.12"
   },
   "peerDependencies": {
-    "angular2": "^2.0.0-beta.15"
+    "@angular/common": "^2.0.0-rc.0",
+    "@angular/compiler": "^2.0.0-rc.0",
+    "@angular/core": "^2.0.0-rc.0",
+    "@angular/http": "^2.0.0-rc.0",
+    "@angular/platform-browser": "^2.0.0-rc.0",
+    "@angular/platform-browser-dynamic": "^2.0.0-rc.0"
   }
 }

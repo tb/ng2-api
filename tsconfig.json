@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "inlineSourceMap": true,
+    "inlineSources": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "removeComments": true,
-    "sourceMap": true,
-    "declaration": true
+    "noImplicitAny": true,
+    "target": "es5"
   },
   "exclude": [
     "node_modules"
   ],
   "files": [
-    "typings/main.d.ts",
-    "ng2-api.ts"
+    "src/ng2-api.js",
+    "typings/main.d.ts"
   ]
 }
