@@ -1,6 +1,6 @@
 {
   "name": "ng2-api",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Angular2 API services",
   "main": "src/ng2-api.js",
   "typings": "src/ng2-api.d.ts",
@@ -9,7 +9,8 @@
     "build": "typings install && tsc",
     "test": "karma start",
     "test:w": "karma start --no-single-run --auto-watch",
-    "prepublish": "npm run build && npm test"
+    "prepublish": "npm run build && npm test",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "Angular2",
