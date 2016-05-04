@@ -7,4 +7,3 @@ npm-debug.log
 # Generated #
 src/*.js
 src/*.d.ts
-typings/
