@@ -1,31 +1,7 @@
-import {Http, Headers, Response, RequestOptions, URLSearchParams} from 'angular2/http';
+import {Http, Headers, Response, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-
-class ApiHelpers {
-  static interpolate(string: string, params: any, deleteParam: boolean = false): string {
-    return string.replace(/:([a-zA-Z]+[\w-]*)/g, (match, key) => {
-      if (params.hasOwnProperty(key)) {
-        if (deleteParam) {
-          delete params[key];
-        }
-        return params[key];
-      } else {
-        return match;
-      }
-    });
-  }
-
-  static toSearch(params: any): URLSearchParams {
-    var urlSearchParams = new URLSearchParams();
-    for (var key in params) {
-      let value = params[key];
-      if (!!value) {
-        urlSearchParams.set(key, params[key]);
-      }
-    }
-    return urlSearchParams;
-  }
-}
+import 'rxjs/add/operator/map';
+import {ApiHelpers} from './api-helpers';
 
 export class ApiService<T> {
   constructor(protected http: Http,
