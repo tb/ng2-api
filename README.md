@@ -12,8 +12,8 @@ Angular2 API services - work in progress
 
 ## Usage
 
-    import {Inject, Injectable} from 'angular2/core';
-    import {Http, Response} from 'angular2/http';
+    import {Inject, Injectable} from '@angular/core';
+    import {Http, Response} from '@angular/http';
     import {ApiService} from 'ng2-api';
     
     export interface Post {
@@ -32,7 +32,6 @@ Angular2 API services - work in progress
         return JSON.stringify({post: model});
       }
     }
-    
 
 ### ApiService methods
 
@@ -41,6 +40,12 @@ Angular2 API services - work in progress
     create(model: Post): Observable<Post>
     update(model: Post): Observable<Post>
     delete(model: Post): Observable<boolean>
+
+### Tests
+
+    npm i
+    npm run build
+    npm run test:w
 
 ## License
 

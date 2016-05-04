@@ -2,13 +2,15 @@
   "name": "ng2-api",
   "version": "0.2.0",
   "description": "Angular2 API services",
-  "main": "dist/ng2-api.js",
-  "typings": "dist/ng2-api.d.ts",
+  "main": "src/ng2-api.js",
+  "typings": "src/ng2-api.d.ts",
   "scripts": {
+    "clean": "rimraf node_modules typings && npm run clean:src",
+    "clean:src": "rimraf src/*.{js,d.ts}",
     "build": "typings install && tsc",
     "test": "karma start",
-    "test:w": "karma start --single-run",
-    "prepublish": "typings install && test && build",
+    "test:w": "karma start --no-single-run --auto-watch",
+    "prepublish": "typings install && npm run build && npm test",
     "start": "lite-server start"
   },
   "keywords": [
@@ -38,6 +40,7 @@
     "karma-typescript-preprocessor": "0.0.21",
     "phantomjs-prebuilt": "^2.1.7",
     "reflect-metadata": "0.1.2",
+    "rimraf": "^2.5.2",
     "rxjs": "5.0.0-beta.6",
     "systemjs": "^0.19.26",
     "typescript": "^1.8.10",

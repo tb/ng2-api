@@ -2,9 +2,6 @@ import {URLSearchParams} from '@angular/http';
 import {ApiHelpers} from '../src/api-helpers';
 
 import {
-  beforeEach,
-  beforeEachProviders,
-  inject,
   expect,
   it,
   describe
@@ -27,14 +24,14 @@ export function main() {
         expect(search).toEqual({order_by: '-created_at'});
       });
     });
-  });
 
-  describe('toSearch', () => {
-    it('should build URLSearchParams', () => {
-      let search = {post_id: 1, order_by: '-created_at'};
-      let urlSearchParams = ApiHelpers.toSearch(search);
-      expect(urlSearchParams instanceof URLSearchParams).toEqual(true);
-      expect(urlSearchParams.toString()).toEqual('post_id=1&order_by=-created_at');
+    describe('toSearch', () => {
+      it('should build URLSearchParams', () => {
+        let search = {post_id: 1, order_by: '-created_at'};
+        let urlSearchParams = ApiHelpers.toSearch(search);
+        expect(urlSearchParams instanceof URLSearchParams).toEqual(true);
+        expect(urlSearchParams.toString()).toEqual('post_id=1&order_by=-created_at');
+      });
     });
   });
 };
