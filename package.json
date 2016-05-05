@@ -1,12 +1,13 @@
 {
   "name": "ng2-api",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Angular2 API services",
   "main": "src/ng2-api.js",
   "typings": "src/ng2-api.d.ts",
   "scripts": {
     "clean": "rimraf typings src/*.{js,d.ts}",
-    "build": "typings install && tsc",
+    "build": "typings install && npm run lint && tsc",
+    "lint": "tslint src/*.ts",
     "test": "karma start",
     "test:w": "karma start --no-single-run --auto-watch",
     "prepublish": "npm run build && npm test",
@@ -42,6 +43,7 @@
     "rimraf": "^2.5.2",
     "rxjs": "5.0.0-beta.6",
     "systemjs": "^0.19.26",
+    "tslint": "^3.9.0",
     "typescript": "^1.8.10",
     "typings": "^0.8.1",
     "zone.js": "^0.6.12"
