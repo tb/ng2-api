@@ -1,6 +1,6 @@
 {
   "name": "ng2-api",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Angular2 API services",
   "main": "src/ng2-api.js",
   "typings": "src/ng2-api.d.ts",
@@ -24,6 +24,13 @@
   ],
   "author": "Tomasz Bak <t.bak@selleo.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tb/ng2-api"
+  },
+  "bugs": {
+    "url": "https://github.com/tb/ng2-api/issues"
+  },
   "devDependencies": {
     "@angular/common": "^2.0.0-rc.0",
     "@angular/compiler": "^2.0.0-rc.0",
