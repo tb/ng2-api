@@ -25,20 +25,15 @@ export class ApiService<T> {
     return JSON.stringify(model);
   }
 
-  deserialize(res: Response): T|T[] {
-    let data = res.json();
-    if (data && Array === data.constructor) {
-      return data.map((item: any) => <T>item);
-    } else {
-      return <T>data;
-    }
+  deserialize(data: any): T {
+    return <T>data;
   }
 
   find(id: number|string): Observable<T> {
     return this.http.get(
       this.url(`${this.path}/:id`, {id}),
       this.requestOptions()
-    ).map(this.deserialize);
+    ).map((res: Response) => this.deserialize(res.json()));
   }
 
   findAll(search?: any): Observable<T[]> {
@@ -50,7 +45,11 @@ export class ApiService<T> {
     return this.http.get(
       this.url(interpolatedPath),
       this.requestOptions().merge(requestOptions)
-    ).map(this.deserialize);
+    ).map((res: Response) => {
+      return res.json().map((item: any) => {
+        return this.deserialize(item);
+      });
+    });
   }
 
   create(model: T): Observable<T> {
@@ -58,7 +57,7 @@ export class ApiService<T> {
       this.url(this.path),
       this.serialize(model),
       this.requestOptions()
-    ).map(this.deserialize);
+    ).map((res: Response) => this.deserialize(res.json()));
   }
 
   update(model: T): Observable<T> {
@@ -66,7 +65,7 @@ export class ApiService<T> {
       this.url(`${this.path}/:id`, model),
       this.serialize(model),
       this.requestOptions()
-    ).map(this.deserialize);
+    ).map((res: Response) => this.deserialize(res.json()));
   }
 
   delete(model: T): Observable<boolean> {
