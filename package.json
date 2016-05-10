@@ -1,12 +1,12 @@
 {
   "name": "ng2-api",
-  "version": "0.3.0",
+  "version": "0.3.5",
   "description": "Angular2 API services",
   "main": "src/ng2-api.js",
   "typings": "src/ng2-api.d.ts",
   "scripts": {
     "clean": "rimraf typings src/*.{js,d.ts}",
-    "build": "typings install && npm run lint && tsc",
+    "build": "typings install && tsc",
     "lint": "tslint src/*.ts",
     "test": "karma start",
     "test:w": "karma start --no-single-run --auto-watch",
