@@ -15,6 +15,6 @@
   ],
   "files": [
     "src/ng2-api.ts",
-    "typings/main.d.ts"
+    "typings/index.d.ts"
   ]
 }

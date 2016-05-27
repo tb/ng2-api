@@ -1,6 +1,6 @@
 {
   "name": "ng2-api",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Angular2 API services",
   "main": "src/ng2-api.js",
   "typings": "src/ng2-api.d.ts",
@@ -52,15 +52,12 @@
     "systemjs": "^0.19.26",
     "tslint": "^3.9.0",
     "typescript": "^1.8.10",
-    "typings": "^0.8.1",
+    "typings": "^1.0.4",
     "zone.js": "^0.6.12"
   },
   "peerDependencies": {
     "@angular/common": "^2.0.0-rc.0",
-    "@angular/compiler": "^2.0.0-rc.0",
     "@angular/core": "^2.0.0-rc.0",
-    "@angular/http": "^2.0.0-rc.0",
-    "@angular/platform-browser": "^2.0.0-rc.0",
-    "@angular/platform-browser-dynamic": "^2.0.0-rc.0"
+    "@angular/http": "^2.0.0-rc.0"
   }
 }
