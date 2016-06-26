@@ -2,16 +2,15 @@
   "name": "ng2-api",
   "version": "0.3.6",
   "description": "Angular2 API services",
-  "main": "src/ng2-api.js",
-  "typings": "src/ng2-api.d.ts",
+  "main": "dist/ng2-api.js",
+  "typings": "dist/ng2-api.d.ts",
   "scripts": {
     "clean": "rimraf typings src/*.{js,d.ts}",
     "build": "typings install && tsc",
     "lint": "tslint src/*.ts",
     "test": "karma start",
     "test:w": "karma start --no-single-run --auto-watch",
-    "prepublish": "npm run build && npm test",
-    "postinstall": "npm run build"
+    "prepublish": "npm run build && npm test"
   },
   "keywords": [
     "Angular2",
