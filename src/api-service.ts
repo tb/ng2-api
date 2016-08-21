@@ -18,14 +18,20 @@ export class ApiService<T> {
   }
 
   find(id: number|string): Observable<T> {
+    let requestOptions = new RequestOptions({body: ''});
+
     return this.http.get(
-      ApiHelpers.interpolate(`${this.path}/:id`, {id})
+      ApiHelpers.interpolate(`${this.path}/:id`, {id}),
+      requestOptions
     ).map((res: Response) => this.deserialize(res.json()));
   }
 
   findAll(search?: any): Observable<T[]> {
     let interpolatedPath = ApiHelpers.interpolate(this.path, search, true);
-    let requestOptions = new RequestOptions({search: ApiHelpers.toSearch(search)});
+    let requestOptions = new RequestOptions({
+      body: '',
+      search: ApiHelpers.toSearch(search)
+    });
 
     return this.http.get(
       interpolatedPath,
@@ -50,8 +56,11 @@ export class ApiService<T> {
   }
 
   delete(model: T): Observable<boolean> {
+    let requestOptions = new RequestOptions({body: ''});
+
     return this.http.delete(
-      ApiHelpers.interpolate(`${this.path}/:id`, model)
+      ApiHelpers.interpolate(`${this.path}/:id`, model),
+      requestOptions
     ).map((res: Response) => res.ok);
   }
 }

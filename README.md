@@ -11,10 +11,10 @@ See full client and server example [ng2-api-examples](https://github.com/tb/ng2-
 
 ### auth.service.ts
 
-    import {provide, Injectable, NgZone} from '@angular/core';
-    import {Http, Response} from '@angular/http';
-    import {Router} from '@angular/router-deprecated';
-    import {ApiConfig, ApiHttp} from 'ng2-api';
+    import { Injectable, NgZone } from '@angular/core';
+    import { Http, Response } from '@angular/http';
+    import { Router} from '@angular/router-deprecated';
+    import { ApiConfig, ApiHttp } from 'ng2-api';
     
     export function authenticated(): boolean {
       return !!localStorage.getItem('token');
@@ -41,7 +41,7 @@ See full client and server example [ng2-api-examples](https://github.com/tb/ng2-
             localStorage.setItem('profile', JSON.stringify(user));
             localStorage.setItem('token', token);
             this.zone.run(() => this.user = user);
-            this.router.navigate(['/Dashboard']);
+            this.router.navigate(['/Posts']);
           });
       }
     
@@ -51,34 +51,53 @@ See full client and server example [ng2-api-examples](https://github.com/tb/ng2-
         this.zone.run(() => this.user = null);
         this.router.navigate(['/Login']);
       }
-    }
+    }   
+
+### app.module.ts
+
+    import { NgModule } from '@angular/core';
+    import { BrowserModule } from '@angular/platform-browser';
+    import { HttpModule, Http } from '@angular/http';
+    import { FormsModule } from '@angular/forms';
+    import { ApiConfig, ApiHttp } from './ng2-api';
     
-    export const AUTH_PROVIDERS: any = [
-      provide(ApiHttp, {
-        useFactory: (http: Http) => {
-          return new ApiHttp(new ApiConfig({baseUrl: 'http://localhost:8081'}), http);
+    import { AppComponent } from './app.component';
+    import { AuthService } from './shared/auth.service';
+    import { PostsComponent } from './posts/posts.component';
+    import { PostsService } from './posts/posts.service';
+    import { routing } from './app.routing';
+    
+    @NgModule({
+      imports: [
+        BrowserModule,
+        HttpModule,
+        FormsModule,
+        routing
+      ],
+      declarations: [
+        AppComponent,
+        PostsComponent,
+      ],
+      providers: [
+        {
+          provide: ApiHttp,
+          useFactory: (http: Http) => new ApiHttp(new ApiConfig({baseUrl: '/api'}), http),
+          deps: [Http]
         },
-        deps: [Http]
-      }),
-      Auth
-    ];
-
-### bootstrap.ts
-
-    bootstrap(App, [
-      ...HTTP_PROVIDERS,
-      ...ROUTER_PROVIDERS,
-      ...AUTH_PROVIDERS
-    ])
+        AuthService,
+        PostsService,
+      ],
+      bootstrap: [AppComponent]
+    })
+    export class AppModule {}
 
 ### posts.service.ts
 
-    import {Injectable} from '@angular/core';
-    import {Http} from '@angular/http';
-    import {ApiService} from 'ng2-api';
+    import { Injectable } from '@angular/core';
+    import { ApiService } from 'ng2-api';
     
     export interface Post {
-      id: number;
+      id?: number;
       title: string;
       body: string;
     }
