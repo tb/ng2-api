@@ -5,8 +5,12 @@ import {ApiHelpers} from './api-helpers';
 import {ApiHttp} from './api-http';
 
 export class ApiService<T> {
+  config: any;
+
   constructor(protected http: ApiHttp,
-              protected path: string) {
+              protected path: string,
+              config: any = {}) {
+    this.config = config;
   }
 
   serialize(model: T): string {
@@ -14,7 +18,11 @@ export class ApiService<T> {
   }
 
   deserialize(data: any): T {
-    return <T>data;
+    return <T>(this.config.objectRoot ? data[this.config.objectRoot]||data : data);
+  }
+
+  extractArray(data: any): any {
+    return (this.config.arrayRoot ? data[this.config.arrayRoot] : data);
   }
 
   find(id: number|string): Observable<T> {
@@ -37,7 +45,7 @@ export class ApiService<T> {
       interpolatedPath,
       requestOptions
     ).map((res: Response) => {
-      return res.json().map((item: any) => {
+      return this.extractArray(res.json()).map((item: any) => {
         return this.deserialize(item);
       });
     });
