@@ -1,6 +1,6 @@
 {
   "name": "ng2-api",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Angular2 API services",
   "main": "dist/ng2-api.js",
   "typings": "dist/ng2-api.d.ts",
@@ -10,7 +10,7 @@
     "lint": "tslint src/*.ts",
     "test": "karma start",
     "test:w": "karma start --no-single-run --auto-watch",
-    "prepublish": "npm run build && npm test"
+    "prepublish": "npm run build"
   },
   "keywords": [
     "Angular2",
@@ -40,10 +40,10 @@
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.35.0",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.22",
-    "karma-jasmine": "^0.3.8",
+    "karma": "1.1.2",
+    "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.0",
-    "karma-typescript-preprocessor": "0.0.21",
+    "karma-typescript-preprocessor": "0.2.1",
     "phantomjs-prebuilt": "^2.1.7",
     "reflect-metadata": "0.1.2",
     "rimraf": "^2.5.2",

@@ -39,15 +39,6 @@ module.exports = function(config) {
 
     typescriptPreprocessor: {
       options: {
-        "declaration": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "inlineSourceMap": true,
-        "inlineSources": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "target": "es5",
       },
       typings: [
         "typings/index.d.ts"
