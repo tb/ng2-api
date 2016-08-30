@@ -14,7 +14,11 @@ export class ApiService<T> {
   }
 
   serialize(model: T): string {
-    return JSON.stringify(model);
+    if (this.config.objectRoot) {
+      return JSON.stringify({[this.config.objectRoot]: model});
+    } else {
+      return JSON.stringify(model);
+    }
   }
 
   deserialize(data: any): T {
