@@ -1,76 +1,38 @@
-// Turn on full stack traces in errors to help debugging
-Error.stackTraceLimit=Infinity;
+Error.stackTraceLimit = Infinity;
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 100;
+require('core-js/client/shim');
+require('reflect-metadata');
 
-// Cancel Karma's synchronous start,
-// we will call `__karma__.start()` later, once all the specs are loaded.
-__karma__.loaded = function() {};
+require('ts-helpers');
 
-System.config({
-  baseURL: '/base/',
-  defaultJSExtensions: true,
-  map: {
-    'rxjs': 'node_modules/rxjs',
-    '@angular': 'node_modules/@angular'
-  },
-  packages: {
-    '@angular/core': {
-      main: 'index.js'
-    },
-    '@angular/compiler': {
-      main: 'index.js'
-    },
-    '@angular/common': {
-      main: 'index.js'
-    },
-    '@angular/http': {
-      main: 'index.js'
-    },
-    '@angular/platform-browser': {
-      main: 'index.js'
-    },
-    '@angular/platform-browser-dynamic': {
-      main: 'index.js'
-    }
-  }
-});
+require('zone.js/dist/zone');
+require('zone.js/dist/long-stack-trace-zone');
+require('zone.js/dist/proxy');
+require('zone.js/dist/sync-test');
+require('zone.js/dist/jasmine-patch');
+require('zone.js/dist/async-test');
+require('zone.js/dist/fake-async-test');
 
-Promise.all([
-  System.import('@angular/core/testing'),
-  System.import('@angular/platform-browser-dynamic/testing')
-]).then(function (providers) {
-  var testing = providers[0];
-  var testingBrowser = providers[1];
+/*
+ Ok, this is kinda crazy. We can use the the context method on
+ require that webpack created in order to tell webpack
+ what files we actually want to require or import.
+ Below, context will be a function/object with file names as keys.
+ using that regex we are saying look in client/app and find
+ any file that ends with '.spec.ts' and get its path. By passing in true
+ we say do this recursively
+ */
+var appContext = require.context('./test', true, /\.spec\.ts/);
 
-  testing.setBaseTestProviders(testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-    testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
+// get all the files, for each file, call the context function
+// that will require the file and load it up here. Context will
+// loop and require those spec files here
+appContext.keys().forEach(appContext);
 
-}).then(function() {
-  // Finally, load all spec files.
-  // This will run the tests directly.
-  return Promise.all(
-    Object.keys(window.__karma__.files) // All files served by Karma.
-      .filter(onlySpecFiles)
-      .map(file2moduleName)
-      .map(function(path) {
-        return System.import(path).then(function(module) {
-          if (module.hasOwnProperty('main')) {
-            module.main();
-          } else {
-            throw new Error('Module ' + path + ' does not implement main() method.');
-          }
-        });
-      }));
-}).then(__karma__.start, __karma__.error);
+// Select BrowserDomAdapter.
+// see https://github.com/AngularClass/angular2-webpack-starter/issues/124
+// Somewhere in the test setup
+var testing = require('@angular/core/testing');
+var browser = require('@angular/platform-browser-dynamic/testing');
 
-function onlySpecFiles(path) {
-  return /[\.|_]spec\.js$/.test(path);
-}
-
-// Normalize paths to module names.
-function file2moduleName(filePath) {
-  return filePath.replace(/\\/g, '/')
-    .replace(/^\/base\//, '')
-    .replace(/\.js/, '');
-}
+testing.TestBed.initTestEnvironment(browser.BrowserDynamicTestingModule, browser.platformBrowserDynamicTesting());
