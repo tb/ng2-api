@@ -7,4 +7,5 @@ export declare class ApiConfig {
     authHeaderPrefix: string;
     requestOptions: RequestOptions;
     constructor(config?: any);
+    token: string;
 }

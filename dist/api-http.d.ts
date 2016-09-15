@@ -2,9 +2,9 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ApiConfig } from './api-config';
 export declare class ApiHttp {
-    private apiConfig;
+    config: ApiConfig;
     private http;
-    constructor(apiConfig: ApiConfig, http: Http);
+    constructor(config: ApiConfig, http: Http);
     url(path: string, params?: any): string;
     requestOptions(options?: RequestOptions): RequestOptions;
     get(url: string, options?: RequestOptions): Observable<Response>;

@@ -1,9 +1,9 @@
 {
   "name": "ng2-api",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Angular2 API services",
-  "main": "dist/ng2-api.js",
-  "typings": "dist/ng2-api.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf typings src/*.{js,d.ts}",
     "build": "typings install && tsc",
@@ -50,7 +50,6 @@
     "reflect-metadata": "0.1.2",
     "rimraf": "^2.5.2",
     "rxjs": "5.0.0-beta.6",
-    "systemjs": "^0.19.26",
     "ts-helpers": "^1.1.1",
     "ts-loader": "^0.8.1",
     "tslint": "^3.9.0",

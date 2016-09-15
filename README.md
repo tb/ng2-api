@@ -58,7 +58,7 @@ See full client and server example [ng2-api-examples](https://github.com/tb/ng2-
             let {token, user} = res.json();
             let {token, user} = {token: 'abc', user: params};
             localStorage.setItem('profile', JSON.stringify(user));
-            localStorage.setItem('token', token);
+            this.http.config.token = token;
             this.authenticated = true;
             this.user = user;
             this.router.navigate(['/admin/posts']);
@@ -67,7 +67,7 @@ See full client and server example [ng2-api-examples](https://github.com/tb/ng2-
     
       logout() {
         localStorage.removeItem('profile');
-        localStorage.removeItem('token');
+        this.http.config.token = '';
         this.authenticated = false;
         this.user = null;
         this.router.navigate(['/login']);
@@ -160,8 +160,7 @@ Example:
 ### Tests
 
     npm i
-    npm run build
-    npm run test:w
+    npm test
 
 ## License
 

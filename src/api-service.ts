@@ -22,7 +22,7 @@ export class ApiService<T> {
   }
 
   deserialize(data: any): T {
-    return <T>(this.config.objectRoot ? data[this.config.objectRoot]||data : data);
+    return <T>(this.config.objectRoot ? data[this.config.objectRoot] || data : data);
   }
 
   extractArray(data: any): any {

@@ -6,17 +6,17 @@ import {ApiConfig} from './api-config';
 
 @Injectable()
 export class ApiHttp {
-  constructor(private apiConfig: ApiConfig,
+  constructor(public config: ApiConfig,
               private http: Http) {
   }
 
   url(path: string, params: any = {}): string {
     let interpolatedPath = ApiHelpers.interpolate(path, params);
-    return `${this.apiConfig.baseUrl}/${interpolatedPath}`;
+    return `${this.config.baseUrl}/${interpolatedPath}`;
   }
 
   requestOptions(options?: RequestOptions): RequestOptions {
-    return this.apiConfig.requestOptions.merge(options);
+    return this.config.requestOptions.merge(options);
   }
 
   get(url: string, options?: RequestOptions): Observable<Response> {

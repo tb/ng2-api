@@ -19,7 +19,16 @@ export class ApiConfig {
 
     let headers: Headers = new Headers();
     headers.set('Content-Type', this.contentType);
-    headers.set(this.authHeaderName, `${this.authHeaderPrefix} ${localStorage.getItem(this.tokenName)}`);
+    headers.set(this.authHeaderName, `${this.authHeaderPrefix} ${this.token}`);
     this.requestOptions = new RequestOptions({headers});
+  }
+
+  get token(): string {
+    return localStorage.getItem(this.tokenName);
+  }
+
+  set token(token: string) {
+    this.requestOptions.headers.set(this.authHeaderName, `${this.authHeaderPrefix} ${token}`);
+    localStorage.setItem(this.tokenName, token);
   }
 }

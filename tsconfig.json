@@ -15,7 +15,7 @@
     "node_modules"
   ],
   "files": [
-    "src/ng2-api.ts",
+    "src/index.ts",
     "typings/index.d.ts"
   ]
 }
